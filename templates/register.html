@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Kayıt Sayfası{% endblock title %}
+{% block body %}
+{% load crispy_forms_tags %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h3>Kayıt Yap</h3>
+            <hr>
+            <form method="post">
+                {% csrf_token %}
+                {{form|crispy}}
+                <br>
+                <button class="btn btn-success" type="submit">Kayıt Yap</button>
+            </form>
+        </div>
+    </div>
+    
+   
+{% endblock body %}

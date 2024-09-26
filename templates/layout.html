@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!-- FontAwesume CSS -->
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Style CSS -->
+     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    {% include "includes/navbar.html" %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                {% if messages %}
+                       <button type="button" id="modalTrigger" class="d-none" data-bs-toggle="modal" data-bs-target="#messageModal"></button>
+                       <div class="modal fade" id="messageModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Bildirim</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% for message in messages %}
+                                        {% if message.tags == "error" %}
+                                        <p class="alert alert-danger">{{message}}</p>
+                                        {% else %}
+                                        <p class="alert alert-{{message.tags}}">{{message}}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Kapat</button>
+                                </div>
+                            </div>
+                        </div>
+                       </div>
+                {% endif %}
+            </div>
+        </div>
+        {% block body %}
+
+        {% endblock body %}
+    </div>
+
+    <!-- Footer -->
+    {% include "includes/footer.html" %}
+    <!-- Bootstrap JS -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/core@1.6.7.js' %}"></script>
+    <script src="{% static 'js/dom@1.6.10.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script>
+        // Modal yapisni otomatik acilmasini olusturuyoruz
+        document.addEventListener("DOMContentLoaded", function(){
+            var modalTrigger = document.getElementById("modalTrigger");
+            if (modalTrigger){
+                modalTrigger.click();
+            }
+        });
+    </script>
+</body>
+</html>

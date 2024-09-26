@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block title %}Yazılar{% endblock title %}
+{% load static %}
+{% load custom_filters %}
+{% block body %}
+<div class="jumbotron bg-light p-5 rounded text-center">
+    <h3 class="display-5">Benim Blog Adresim</h3>
+    <p class="lead">Bu blog yazisinda en son teknolojiler hakkinda konusuyoruz.</p>
+</div>
+<h3>Makaleler</h3>
+<form class="form-inline mb-3">
+    {% csrf_token %}
+    <div class="input-group w-50">
+        <input type="search" name="keyword" id="keyword" class="form-control"
+        placeholder="Makale Ara...">
+        <div class="input-group-append">
+            <button class="btn btn-outline-success" type="submit">Ara</button>
+        </div>
+    </div>
+</form>
+<hr>
+{% if articles %}
+    <div class="row">
+        {% for article in page_obj %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <a href="/blog/article/{{article.id}}">
+                        <img src="{% if article.article_img %}
+                    {{article.article_img.url}}
+                    {% else %}
+                    {% static 'images/image_news.jpg' %}
+                    {% endif %}" alt="{{article.title}}" 
+                    style="height: 300px; width: 100%;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/blog/article/{{article.id}}">{{article.title}}</a></h5>
+                        <div class="card-text"><strong>Yazar: </strong>{{article.author.username}}</div>
+                        <div class="card-text"><strong>Tarih: </strong>{{article.created_date}}</div>
+                        <div class="card-text">
+                            {{article.content|strip_html|truncatewords:10}}
+                            <a href="/blog/article/{{article.id}}">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a href="?page={{page_obj.previous_page_number}}{% if keyword %}&keyword={{keyword}}{% endif %}" class="page-link"><span>&laquo;</span></a>
+            </li> 
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a href="?page={{num}}{% if keyword %}&keyword={{keyword}}{% endif %}" class="page-link">{{ num }}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a href="?page={{page_obj.next_page_number}}{% if keyword %}&keyword={{keyword}}{% endif %}" class="page-link"><span>&raquo;</span></a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% else %}
+    <div class="alert alert-danger">Herhangi bir makale bulunamadi</div>
+{% endif %}
+
+{% endblock body %}

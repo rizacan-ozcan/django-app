@@ -1,0 +1,44 @@
+<!-- Footer Sayfasi -->
+ <footer class="bg-dark text-white py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Birinci Sütun -->
+            <div class="col-md-4">
+                <h5>My Company</h5>
+                <p>{{footer_settings.description}}</p>
+            </div>
+            <!-- İkinci Sütun -->
+             <div class="col-md-4">
+                <h5>Önemli Sayfalar</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'index' %}" class="text-white">Anasayfa</a></li>
+                    <li><a href="{% url 'about' %}" class="text-white">Hakkımızda</a></li>
+                    <li><a href="{% url 'blog:articles' %}" class="text-white">Blog</a></li>
+                    <li><a href="{% url 'contact' %}" class="text-white">İletişim</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'user:profile' request.user.username %}" class="text-white">Profilim</a></li>
+                    {% endif %}
+                </ul>
+             </div>
+             <!-- Üçüncü Sütun -->
+            <div class="col-md-4">
+                <h5>İletişim</h5>
+                <p>
+                    Address: {{footer_settings.address}} <br>
+                    Email: <a href="mailto:{{footer_settings.email}}" class="text-white">{{footer_settings.email}}</a><br>
+                    Telephone: {{footer_settings.phone}}
+                </p>
+                <div>
+                    <h5>Bizi Sosyal Medyada takip edin</h5>
+                    <a href="{{footer_settings.facebook}}" class="text-white me-2"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="{{footer_settings.twitter}}" class="text-white me-2"><i class="fa-brands fa-square-x-twitter"></i></a>
+                    <a href="{{footer_settings.instagram}}" class="text-white me-2"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="{{footer_settings.linkedin}}" class="text-white me-2"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <p class="mb-0">&copy; 2024 My Company. Tüm hakları saklıdır.</p>
+        </div>
+    </div>
+ </footer>
